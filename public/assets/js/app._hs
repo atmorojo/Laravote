@@ -1,0 +1,8 @@
+def vote(e, next_label)
+    set :max_vote to 3
+    get <.candidate-card__checkbox:checked/>
+    if its length > :max_vote then
+        set e's checked to false
+    otherwise
+        toggle .candidate-card__label--selected on next_label
+end

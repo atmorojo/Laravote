@@ -1,0 +1,20 @@
+.candidate-list
+{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.candidate-card
+{
+    display: flex;
+    margin: .5em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.candidate-card__checkbox { display: none }
+.candidate-card__label { padding: 1em }
+.candidate-card__label--selected { background: #82e2ff }
+.candidate-card__img { font-size:3em; text-align: center; }
+    
