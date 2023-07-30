@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Vote;
+use App\Models\Candidate;
 use Illuminate\Http\Request;
 
 class VoteController extends Controller
@@ -20,7 +21,8 @@ class VoteController extends Controller
      */
     public function create()
     {
-        return view('votes.create');
+        $candidates = Candidate::all();
+        return view('votes.create', compact('candidates'));
     }
 
     /**
@@ -28,7 +30,8 @@ class VoteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request->get('candidates'));
+        //Vote::insert($request); 
     }
 
     /**
