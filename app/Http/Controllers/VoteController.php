@@ -30,8 +30,15 @@ class VoteController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->get('candidates'));
-        //Vote::insert($request); 
+        $candidates_refs = $request->get('candidates');
+        $candidates = [];
+        foreach ($candidates_refs as $candidate_ref) {
+            $candidate = ['ref' => $candidate_ref, 'created_at' => now(), 'updated_at' => now()];
+            array_push($candidates, $candidate);
+        }
+        Vote::insert($candidates); 
+
+        dd(Vote::all());
     }
 
     /**
