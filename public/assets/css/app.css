@@ -8,13 +8,32 @@
 .candidate-card
 {
     display: flex;
+    width: 13%;
     margin: .5em;
-    border: 1px solid #ccc;
-    border-radius: 4px;
 }
 
 .candidate-card__checkbox { display: none }
-.candidate-card__label { padding: 1em }
-.candidate-card__label--selected { background: #82e2ff }
-.candidate-card__img { font-size:3em; text-align: center; }
-    
+.candidate-card__label {
+    width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    padding: 1em;
+    text-align: center;
+}
+.candidate-card__label--selected {
+    border: 1px solid rgb(128, 225, 255);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, .2);
+    background: rgba(130, 226, 255, .8);
+}
+.candidate-card__name { font-weight: bold }
+.candidate-card__ref { font-size: 1em }
+.candidate-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.rounder {
+    aspect-ratio: 1;
+    border-radius: 50%;
+    overflow: hidden;
+}
