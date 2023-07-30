@@ -11,7 +11,7 @@
                 class="candidate-card__label"
                 for="{{ $candidate->ref }}">
                 <div class="rounder">
-                    <img class="candidate-card__img" src="{{ asset('/img/' . $candidate->ref . '.jpg') }}"/>
+                    <img class="candidate-card__img" src="{{ asset('/img/' . $candidate->id . '.jpg') }}"/>
                 </div>
                 <p class="candidate-card__ref">{{ $candidate->ref }}</p>
                 <p class="candidate-card__name">{{ $candidate->name }}</p>
