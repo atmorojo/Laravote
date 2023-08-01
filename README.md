@@ -4,7 +4,12 @@ E-voting app for choosing who's our next branch leaders.
 # TODO
 ## Functions
 - [ ] Add candidates
-    - [ ] Parse 'candidates.csv'
+    - [ ] Show screen 1.1
+    - [ ] Parse 'candidates.csv' in backend
+        - [ ] If the file uploaded is valid
+            - [ ] Store data to db
+            - [ ] Show screen 1.3 
+        - [ ] If the file uploaded is not valid show screen 1.7 
 - [ ] Authentication
     - [ ] Show screen 2.1
     - [ ] Check user input against data in the users table
@@ -25,7 +30,7 @@ E-voting app for choosing who's our next branch leaders.
 ## Screens
 - [ ] 1. Dashboard
     - [ ] 1.1. Upload 'candidates.csv'
-        - 1.1.1 Use filepond.js
+        - [ ] 1.1.1 Use filepond.js
     - [ ] 1.2. Upload candidates photos
     - [ ] 1.3. Table of candidates
         - [ ] 1.3.1. Candidate ref
@@ -36,17 +41,20 @@ E-voting app for choosing who's our next branch leaders.
         - [ ] 1.4.2. Candidate name
         - [ ] 1.4.2. Sum of candidate vote result
     - [ ] 1.5. Upload 'voters.csv'
-        - 1.5.1 Use filepond.js
+        - [ ] 1.5.1 Use filepond.js
     - [ ] 1.6. List of voters
         - [ ] 1.6.1. Name
         - [ ] 1.6.2. Ref code
         - [ ] 1.6.3. Voted?
         - [ ] 1.6.4. Cancel vote
         - [ ] 1.6.5. Delete voter
+    - [ ] 1.7. Invalid csv file
 - [ ] 2. Simple authentication
     - [ ] 2.1. Input ref number
-    - [ ] 2.2. Logged in
+    - [ ] 2.2. Logged in message
     - [ ] 2.3. Ref not found
+        - [ ] 2.3.1. Huge red x icon
+        - [ ] 2.3.2. Authentication error message
 - [ ] 3. Votes
     - [x] 3.1. Candidate list (voting page)
         - [x] 3.1.1. Candidate photos
