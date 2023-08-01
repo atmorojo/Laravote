@@ -38,7 +38,7 @@ class VoteController extends Controller
         }
         Vote::insert($candidates); 
 
-        dd(Vote::all());
+        return view('votes.success');
     }
 
     /**

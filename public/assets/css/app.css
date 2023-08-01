@@ -20,6 +20,7 @@
     padding: 1em;
     text-align: center;
 }
+.candidate-card__checkbox:checked ~ .candidate-card__label,
 .candidate-card__label--selected {
     border: 1px solid rgb(128, 225, 255);
     box-shadow: 0 4px 8px rgba(0, 0, 0, .2);
