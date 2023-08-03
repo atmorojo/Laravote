@@ -18,6 +18,8 @@ Route::get('/', function () {
     return redirect('/votes/create');
 });
 
+Route::view('/login', 'login');
+
 Route::resource('votes', VoteController::class)->only([
     'index', 'create', 'store'
 ]);
