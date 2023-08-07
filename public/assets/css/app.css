@@ -1,3 +1,4 @@
+body { margin: 0; }
 .candidate-list
 {
     display: flex;
@@ -40,26 +41,35 @@
 }
 
 .login-screen { 
-    position: absolute;
     width: 100%;
     height: 100%;
     display: flex;
+    position: absolute;
+    justify-content: space-around;
     align-items: center;
 }
 
 .login-card {
-    color: #212121;
+    display: flex;
+    flex-direction: column;
     text-align: center;
-    position: relative;
+}
+.login-card__submit {
+    all: unset;
+    box-shadow: inset 0px 12px 20px 0px #006bd3;
+    cursor: pointer;
+    padding: 1rem;
+    background: dodgerblue;
+    color: white;
+    font-family: sans-serif;
+    font-weight: bold;
+    margin-top: 1rem;
+    border-radius: 12px;
 }
 .login-card__input {
     all: unset;
     letter-spacing: 2rem;
     font-size: 4em;
-}
-
-.login-card__input:after {
-    content: "\00d7";
-    color: #000;
-    font-family: serif;
+    background: whitesmoke;
+    border-radius: 3px;
 }
