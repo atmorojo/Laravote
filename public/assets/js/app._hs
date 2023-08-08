@@ -3,6 +3,8 @@ def vote(e, next_label)
     get <.candidate-card__checkbox:checked/>
     if its length > :max_vote then
         set e's checked to false
+        put "Hanya bisa memilih " + :max_vote + " kandidat!" into #modal's innerHTML
+        hide #modal
     otherwise
         toggle .candidate-card__label--selected on next_label
 end
