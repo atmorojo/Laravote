@@ -9,9 +9,4 @@
             @include('votes.candidate-card')
         </div> <!-- end of candidate-list -->
     </form>
-    <div
-        _="on load hide"
-        id="modal">
-
-    </div>
 </x-base>

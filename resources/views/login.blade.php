@@ -1,6 +1,8 @@
 <x-base>
     <div class="login-screen">
-        <form class="login-card">
+        <form
+            autocomplete="off"
+            class="login-card">
             <p class="login-card__info">Masukkan Nomor Baku anda...</p>
             <div class="login-card__input-wrapper">
                 <input
@@ -14,5 +16,4 @@
                 value="Log in"/>
         </form>
     </div>
-    <div id="modal"></div>
 </x-base>
