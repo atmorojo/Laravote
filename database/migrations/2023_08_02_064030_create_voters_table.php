@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('voters', function (Blueprint $table) {
             $table->id();
+            $table->string("ref");
+            $table->string("name");
             $table->timestamps();
         });
     }

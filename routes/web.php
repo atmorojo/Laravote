@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+use App\Models\Voter;
 use App\Http\Controllers\VoteController;
 
 /*
@@ -15,10 +17,18 @@ use App\Http\Controllers\VoteController;
 */
 
 Route::get('/', function () {
-    return redirect('/votes/create');
+    return redirect('/login');
 });
 
 Route::view('/login', 'login');
+Route::post('/login', function(Request $request) {
+    $voter = Voter::firstWhere('ref', $request->get('ref'));
+    if (!$voter) {
+        return "Kosong";
+    }
+
+    return redirect('/votes/create');
+});
 
 Route::resource('votes', VoteController::class)->only([
     'index', 'create', 'store'
