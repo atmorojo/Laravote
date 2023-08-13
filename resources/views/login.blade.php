@@ -2,7 +2,7 @@
     <div class="login-screen">
         <form
             hx-post="/login"
-            hx-target="body"
+            hx-target="main"
             autocomplete="off"
             class="login-card">
             @csrf
@@ -21,3 +21,14 @@
         </form>
     </div>
 </x-base>
+
+<div
+    _="on click hide"
+    style="display: none;"
+    hx-swap-oob="true"
+    id="modal">
+    <div id="modal-card">
+        <p id="modal-message"></p>
+        <small>Klik di mana saja untuk keluar</small>
+    </div>
+</div>

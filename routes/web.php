@@ -16,11 +16,7 @@ use App\Http\Controllers\VoteController;
 |
 */
 
-Route::get('/', function () {
-    return redirect('/login');
-});
-
-Route::view('/login', 'login');
+Route::view('/', 'login');
 Route::post('/login', function(Request $request) {
     $voter = Voter::firstWhere('ref', $request->get('ref'));
     if (!$voter) {

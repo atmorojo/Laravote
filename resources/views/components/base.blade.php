@@ -7,7 +7,9 @@
         />
 </head>
 <body>
+    <main>
     {{ $slot }}
+    </main>
 
     <div
         _="on click hide"
