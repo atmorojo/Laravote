@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Models\Voter;
 use App\Http\Controllers\VoteController;
+use App\Http\Middleware\Authenticate;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,13 +17,14 @@ use App\Http\Controllers\VoteController;
 |
 */
 
-Route::view('/', 'login');
+Route::view('/', 'login')->name('login');
 Route::post('/login', function(Request $request) {
     $voter = Voter::firstWhere('ref', $request->get('ref'));
     if (!$voter) {
         return "Kosong";
     }
 
+    $request->session()->put('logged_in', '1');
     return redirect('/votes/create');
 });
 

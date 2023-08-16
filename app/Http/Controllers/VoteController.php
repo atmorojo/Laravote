@@ -19,8 +19,9 @@ class VoteController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
+        if ($request->session()->missing('logged_in')) { return redirect('/'); }
         $candidates = Candidate::all();
         return view('votes.create', compact('candidates'));
     }
@@ -30,6 +31,7 @@ class VoteController extends Controller
      */
     public function store(Request $request)
     {
+        if ($request->session()->missing('logged_in')) { return redirect('/'); }
         $candidates_refs = $request->get('candidates');
         $candidates = [];
         foreach ($candidates_refs as $candidate_ref) {
@@ -37,7 +39,7 @@ class VoteController extends Controller
             array_push($candidates, $candidate);
         }
         Vote::insert($candidates); 
-
+        $request->session()->flush();
         return view('votes.success');
     }
 
@@ -72,4 +74,5 @@ class VoteController extends Controller
     {
         //
     }
+
 }
