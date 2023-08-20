@@ -1,4 +1,4 @@
-# fly.toml app configuration file generated for laravote on 2023-08-20T07:52:48Z
+# fly.toml app configuration file generated for laravote on 2023-08-20T08:13:28Z
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
@@ -14,13 +14,14 @@ console_command = "php /var/www/html/artisan tinker"
 
 [env]
   APP_ENV = "production"
+  ASSET_URL = "/assets"
+  DB_CONNECTION = "sqlite"
+  DB_DATABASE = "/var/www/html/database/database.sqlite"
   LOG_CHANNEL = "stderr"
   LOG_LEVEL = "info"
   LOG_STDERR_FORMATTER = "Monolog\\Formatter\\JsonFormatter"
   SESSION_DRIVER = "cookie"
-  ASSET_URL = "/assets"
-  DB_CONNECTION = "sqlite"
-  DB_DATABASE = "/var/www/html/database/database.sqlite"
+  SESSION_SECURE_COOKIE = "true"
 
 [http_service]
   internal_port = 8080
