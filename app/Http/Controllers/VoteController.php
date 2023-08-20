@@ -40,7 +40,15 @@ class VoteController extends Controller
         }
         Vote::insert($candidates); 
         $request->session()->flush();
-        return view('votes.success');
+        return response()
+            ->view(
+                'votes.modal',
+                ['message' => 'Suara anda telah kami dengar. Terima kasih!']
+            )
+            ->withHeaders([
+                'HX-Retarget' => '#modal',
+                'HX-Reswap' => 'outerHTML',
+            ]);
     }
 
     /**

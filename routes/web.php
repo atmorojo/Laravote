@@ -21,7 +21,16 @@ Route::view('/', 'login')->name('login');
 Route::post('/login', function(Request $request) {
     $voter = Voter::firstWhere('ref', $request->get('ref'));
     if (!$voter) {
-        return "Kosong";
+        return response()
+            ->view(
+                'votes.modal',
+                ['message' => 'Maaf anda tidak terdaftar dalam sistem.']
+            )
+            ->withHeaders([
+                'HX-Retarget' => '#modal',
+                'HX-Reswap' => 'outerHTML',
+            ]);
+
     }
 
     $request->session()->put('logged_in', '1');
