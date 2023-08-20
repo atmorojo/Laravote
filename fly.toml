@@ -18,9 +18,8 @@ console_command = "php /var/www/html/artisan tinker"
   LOG_LEVEL = "info"
   LOG_STDERR_FORMATTER = "Monolog\\Formatter\\JsonFormatter"
   SESSION_DRIVER = "cookie"
-  stty rows 29 columns 89 echo
-stty rows 30 columns 87 echo
-kk
+  ASSET_URL = "/assets"
+  DB_CONNECTION = "sqlite"
 
 [http_service]
   internal_port = 8080
