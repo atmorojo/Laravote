@@ -1,20 +1,32 @@
 @foreach ($candidates as $candidate)
-    <div class="candidate-card">
+    <div class="col-6 col-md-3">
         <input
-            _="on click call vote(me, the next <label/>)"
-            class="candidate-card__checkbox"
+            _="on click call vote(me, the next .card)"
+            class="candidate-card__checkbox visually-hidden"
             type="checkbox"
             name="candidates[]"
             id="{{ $candidate->ref }}"
-            value="{{ $candidate->ref }}"/>
+            value="{{ $candidate->ref }}" />
             <label
-                class="candidate-card__label"
                 for="{{ $candidate->ref }}">
-                <div class="rounder">
-                    <img class="candidate-card__img" src="{{ asset('/img/' . $candidate->id . '.jpg') }}"/>
+                <div class="card">
+                    <div class="card-content">
+                        <img
+                            class="card-img-top img-fluid"
+                            src="{{ asset('/img/' . $candidate->id . '.jpg') }}"
+                            alt="Card image cap"
+                            />
+                            <div class="card-body">
+                                <h4 class="card-title">{{ $candidate->name }}</h4>
+                                <p class="card-text">{{ $candidate->ref }}</p>
+                                <div class="d-grid">
+                                    <button class="btn btn-outline-success block">
+                                        Biodata
+                                    </button>
+                                </div>
+                            </div>
+                    </div>
                 </div>
-                <p class="candidate-card__ref">{{ $candidate->ref }}</p>
-                <p class="candidate-card__name">{{ $candidate->name }}</p>
             </label>
     </div>
 @endforeach

@@ -3,8 +3,15 @@
     hx-target="main"
     autocomplete="off">
     @csrf
-    <input type="submit" value="Submit" />
-    <div class="candidate-list" >
-        @include('votes.candidate-card')
+    <div class="container">
+        <div class="row">
+            @include('votes.candidate-card')
+        </div>
     </div> <!-- end of candidate-list -->
+    <div
+        class="fixed-bottom p-4 bg-white shadow-lg rounded-top">
+        <div class="d-grid">
+            <input class="btn btn-primary fw-bold" type="submit" value="Simpan pilihan" />
+        </div>
+    </div>
 </form>

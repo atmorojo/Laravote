@@ -6,5 +6,5 @@ def vote(e, next_label)
         put "Hanya bisa memilih " + :max_vote + " kandidat!" into #modal-message's innerHTML
         show #modal
     otherwise
-        toggle .candidate-card__label--selected on next_label
+        toggle .shadow .selected on next_label
 end
