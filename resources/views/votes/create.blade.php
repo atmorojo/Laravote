@@ -3,7 +3,7 @@
     hx-target="main"
     autocomplete="off">
     @csrf
-    <div class="container">
+    <div class="container pt-4 pb-5">
         <div class="row">
             @include('votes.candidate-card')
         </div>

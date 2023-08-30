@@ -23,11 +23,12 @@
         <div
             _="on click hide"
             style="display: none;"
-            id="modal">
-            <div id="modal-card">
-                <p id="modal-message"></p>
-                <small>Klik di mana saja untuk keluar</small>
-            </div>
+            id="alert">
+            @include('alert', [
+                'alert_type' => "",
+                'alert_header' => "",
+                'alert_message' => "",
+            ])
         </div>
         <script src="{{ asset('js/extensions/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
         <script src="{{ asset('js/app.js') }}"></script>

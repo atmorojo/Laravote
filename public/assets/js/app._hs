@@ -3,8 +3,10 @@ def vote(e, next_label)
     get <.candidate-card__checkbox:checked/>
     if its length > :max_vote then
         set e's checked to false
-        put "Hanya bisa memilih " + :max_vote + " kandidat!" into #modal-message's innerHTML
-        show #modal
+        put "Hanya bisa memilih " + :max_vote + " kandidat!" into #alert-message's innerHTML
+        put "Perhatian!" into #alert-heading's innerHTML
+        add .alert-warning to #alert-popup
+        show #alert
     otherwise
         toggle .shadow .selected on next_label
 end
