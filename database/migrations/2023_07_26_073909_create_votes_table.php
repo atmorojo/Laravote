@@ -13,7 +13,11 @@ return new class extends Migration
     {
         Schema::create('votes', function (Blueprint $table) {
             $table->id();
-            $table->string('ref');
+            $table->string('voter_ref');
+            $table->string('ref_voted');
+
+            $table->foreign('voter_ref')->references('ref')->on('users');
+            $table->foreign('ref_voted')->references('ref')->on('users');
             $table->timestamps();
         });
     }

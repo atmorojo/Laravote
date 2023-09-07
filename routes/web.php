@@ -2,9 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
-use App\Models\Voter;
 use App\Http\Controllers\VoteController;
 use App\Http\Middleware\Authenticate;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,21 +15,26 @@ use App\Http\Middleware\Authenticate;
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "web" middleware group. Make something great!
 |
-*/
+ */
 
 Route::view('/', 'login')->name('login');
 Route::post('/login', function(Request $request) {
-    $voter = Voter::firstWhere('ref', $request->get('ref'));
-    if (!$voter) {
+    if ($request->session()->exists('logged_in')) {
+        return redirect('/votes/create');
+    }
+
+    $user = User::firstWhere('ref', $request->get('ref'));
+    if (!$user) {
         return response()
-            ->view(
-                'votes.modal',
-                ['message' => 'Maaf anda tidak terdaftar dalam sistem.']
-            )
-            ->withHeaders([
-                'HX-Retarget' => '#modal',
-                'HX-Reswap' => 'outerHTML',
-            ]);
+            ->view('alert', [
+                'alert_type' => "alert-danger",
+                'alert_header' => "Terjadi kesalahan.",
+                'alert_message' => "Maaf anda tidak terdaftar dalam sistem.",
+                ])
+                ->withHeaders([
+                    'HX-Retarget' => '#alert-popup',
+                    'HX-Reswap' => 'outerHTML',
+                ]);
 
     }
 

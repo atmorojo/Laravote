@@ -22,7 +22,7 @@ class VoteController extends Controller
     public function create(Request $request)
     {
         if ($request->session()->missing('logged_in')) { return redirect('/'); }
-        $candidates = Candidate::all();
+        $candidates = Users::all();
         return view('votes.create', compact('candidates'));
     }
 

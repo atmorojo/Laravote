@@ -1,6 +1,7 @@
 <div
+    hx-swap-oob="true"
     id="alert-popup"
-    class="alert {{ $alert_type }} fixed-top m-3"
+    class='alert fixed-top m-3 {{ $alert_type }}'
     >
     <h4
         id="alert-heading"

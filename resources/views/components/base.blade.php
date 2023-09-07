@@ -22,7 +22,6 @@
 
         <div
             _="on click hide"
-            style="display: none;"
             id="alert">
             @include('alert', [
                 'alert_type' => "",
