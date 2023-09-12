@@ -20,15 +20,7 @@
             {{ $slot }}
         </main>
 
-        <div
-            _="on click hide"
-            id="alert">
-            @include('alert', [
-                'alert_type' => "",
-                'alert_header' => "",
-                'alert_message' => "",
-            ])
-        </div>
+        @include('alert')
         <script src="{{ asset('js/extensions/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
         <script src="{{ asset('js/app.js') }}"></script>
         <script type="text/hyperscript" src="{{ asset('js/app._hs') }}"></script>

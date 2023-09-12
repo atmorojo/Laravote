@@ -25,17 +25,14 @@ Route::post('/login', function(Request $request) {
 
     $user = User::firstWhere('ref', $request->get('ref'));
     if (!$user) {
-        return response()
-            ->view('alert', [
-                'alert_type' => "alert-danger",
-                'alert_header' => "Terjadi kesalahan.",
-                'alert_message' => "Maaf anda tidak terdaftar dalam sistem.",
-                ])
-                ->withHeaders([
-                    'HX-Retarget' => '#alert-popup',
-                    'HX-Reswap' => 'outerHTML',
-                ]);
-
+        return response(
+            json_encode([
+                "alertPopper" => NULL,
+                "alertType" => "alert-danger",
+                "alertHeader" => "Perhatian!",
+                "alertMessage" => "Maaf, anda tidak terdaftar dalam sistem!"
+            ])
+        );
     }
 
     $request->session()->put('logged_in', '1');
