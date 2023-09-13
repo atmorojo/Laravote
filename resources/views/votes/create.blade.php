@@ -1,4 +1,13 @@
 <form 
+    _="
+        on alertPopper
+          add .alert-success to #alert-popup
+          put event.detail.alertHeader at the end of #alert-heading
+          put event.detail.alertMessage into #alert-message
+          show #alert
+          wait 10s
+          go to url /
+    "
     hx-post="/votes"
     hx-target="main"
     autocomplete="off">

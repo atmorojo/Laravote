@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Vote;
-use App\Models\Candidate;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class VoteController extends Controller
@@ -22,7 +22,7 @@ class VoteController extends Controller
     public function create(Request $request)
     {
         if ($request->session()->missing('logged_in')) { return redirect('/'); }
-        $candidates = Users::all();
+        $candidates = User::all();
         return view('votes.create', compact('candidates'));
     }
 
@@ -33,21 +33,24 @@ class VoteController extends Controller
     {
         if ($request->session()->missing('logged_in')) { return redirect('/'); }
         $candidates_refs = $request->get('candidates');
+        $voter = session('voter_ref');
         $candidates = [];
         foreach ($candidates_refs as $candidate_ref) {
-            $candidate = ['ref' => $candidate_ref, 'created_at' => now(), 'updated_at' => now()];
+            $candidate = [
+                'voter_ref' => $voter, 
+                'ref_voted' => $candidate_ref, 
+                'created_at' => now(),
+                'updated_at' => now()];
             array_push($candidates, $candidate);
         }
         Vote::insert($candidates); 
         $request->session()->flush();
-        return response()
-            ->view(
-                'votes.modal',
-                ['message' => 'Suara anda telah kami dengar. Terima kasih!']
-            )
+        return response('', 418)
             ->withHeaders([
-                'HX-Retarget' => '#modal',
-                'HX-Reswap' => 'outerHTML',
+                'HX-Trigger' => json_encode([ "alertPopper" => [
+                        "alertHeader" => "Berhasil!",
+                        "alertMessage" => "Suara anda telah kami dengar. Terima kasih!"
+                ]])
             ]);
     }
 

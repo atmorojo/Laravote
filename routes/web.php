@@ -17,25 +17,32 @@ use App\Models\User;
 |
  */
 
-Route::view('/', 'login')->name('login');
+Route::get('/', function(Request $request) {
+    $logged_in = session('logged_in');
+
+    if (!$logged_in) {
+        return view('login');
+    }
+
+    return redirect('/votes/create');
+})->name('login');
+
 Route::post('/login', function(Request $request) {
-    if ($request->session()->exists('logged_in')) {
-        return redirect('/votes/create');
-    }
-
-    $user = User::firstWhere('ref', $request->get('ref'));
+    $voter = $request->get('ref');
+    $user = User::firstWhere('ref', $voter);
     if (!$user) {
-        return response(
-            json_encode([
-                "alertPopper" => NULL,
-                "alertType" => "alert-danger",
-                "alertHeader" => "Perhatian!",
-                "alertMessage" => "Maaf, anda tidak terdaftar dalam sistem!"
-            ])
-        );
+        return response('', 401)
+            ->withHeaders([
+                'HX-Trigger' => json_encode([ "alertPopper" => [
+                        "alertHeader" => "Perhatian!",
+                        "alertMessage" => "Maaf, anda tidak terdaftar dalam sistem!"
+                ]
+                ])
+            ]);
     }
 
-    $request->session()->put('logged_in', '1');
+    session(['logged_in' => '1']);
+    session(['voter_ref' => $voter]);
     return redirect('/votes/create');
 });
 
