@@ -20,7 +20,7 @@
             {{ $slot }}
         </main>
 
-        @include('alert')
+        @include('utils.alert')
         <script src="{{ asset('js/extensions/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
         <script src="{{ asset('js/app.js') }}"></script>
         <script type="text/hyperscript" src="{{ asset('js/app._hs') }}"></script>

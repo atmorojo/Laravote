@@ -1,10 +1,12 @@
 <div
-    _="on click hide"
+    _="
+    on click hide
+    "
     style="display: none;"
     id="alert">
     <div
         id="alert-popup"
-        class='alert fixed-top m-3'
+        class='alert text-white fixed-top m-3'
         >
         <h4
             id="alert-heading"

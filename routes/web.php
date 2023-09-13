@@ -21,10 +21,10 @@ Route::get('/', function(Request $request) {
     $logged_in = session('logged_in');
 
     if (!$logged_in) {
-        return view('login');
+        return view('page', ['page' => 'partials.login']);
     }
 
-    return redirect('/votes/create');
+    return view('page', ['page' => 'partials.candidate-list']);
 })->name('login');
 
 Route::post('/login', function(Request $request) {
@@ -33,17 +33,18 @@ Route::post('/login', function(Request $request) {
     if (!$user) {
         return response('', 401)
             ->withHeaders([
-                'HX-Trigger' => json_encode([ "alertPopper" => [
+                'HX-Trigger' => json_encode([
+                    "alertPopper" => [
                         "alertHeader" => "Perhatian!",
                         "alertMessage" => "Maaf, anda tidak terdaftar dalam sistem!"
-                ]
+                    ]
                 ])
             ]);
     }
 
     session(['logged_in' => '1']);
     session(['voter_ref' => $voter]);
-    return redirect('/votes/create');
+    return view('');
 });
 
 Route::resource('votes', VoteController::class)->only([
