@@ -24,27 +24,31 @@ Route::get('/', function(Request $request) {
         return view('page', ['page' => 'partials.login']);
     }
 
-    return view('page', ['page' => 'partials.candidate-list']);
+    return redirect('/votes/create');
 })->name('login');
 
 Route::post('/login', function(Request $request) {
     $voter = $request->get('ref');
     $user = User::firstWhere('ref', $voter);
+
     if (!$user) {
         return response('', 401)
-            ->withHeaders([
-                'HX-Trigger' => json_encode([
-                    "alertPopper" => [
-                        "alertHeader" => "Perhatian!",
-                        "alertMessage" => "Maaf, anda tidak terdaftar dalam sistem!"
-                    ]
-                ])
+            ->withHeaders(['HX-Trigger' => json_encode([
+                "alertPopper" => [
+                    "alertHeader" => "Perhatian!",
+                    "alertMessage" => "Maaf, anda tidak terdaftar dalam sistem!"
+                ]])
             ]);
     }
 
     session(['logged_in' => '1']);
     session(['voter_ref' => $voter]);
-    return view('');
+
+    return redirect('/votes/create');
+});
+
+Route::get('/check', function(Request $request) {
+
 });
 
 Route::resource('votes', VoteController::class)->only([

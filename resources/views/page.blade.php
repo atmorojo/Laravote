@@ -1,3 +1,3 @@
 <x-base>
-    @include($page);
+    @include($page)
 </x-base>

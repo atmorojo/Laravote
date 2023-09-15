@@ -22,8 +22,14 @@ class VoteController extends Controller
     public function create(Request $request)
     {
         if ($request->session()->missing('logged_in')) { return redirect('/'); }
-        $candidates = User::all();
-        return view('votes.create', compact('candidates'));
+        $candidates = User::where('candidate', true)->get();
+        $page = 'partials.candidate-list';
+
+        if ($request->header('hx-request')) {
+            return view($page, compact('candidates'));
+        }
+
+        return view('page', compact('page', 'candidates'));
     }
 
     /**
@@ -32,9 +38,23 @@ class VoteController extends Controller
     public function store(Request $request)
     {
         if ($request->session()->missing('logged_in')) { return redirect('/'); }
+
         $candidates_refs = $request->get('candidates');
-        $voter = session('voter_ref');
+
+        if (count($candidates_refs) > 3) {
+            return response('', 418)
+                ->withHeaders(['HX-Trigger' =>
+                json_encode(["alertPopper" => [
+                    "alertBGColor" => '#ffc107',
+                    "alertHeader" => "Gagal!",
+                    "alertMessage" => "Maaf, hanya bisa memilih 3 kandidat!"
+                ]])
+                ]);
+        }
+
         $candidates = [];
+        $voter = session('voter_ref');
+
         foreach ($candidates_refs as $candidate_ref) {
             $candidate = [
                 'voter_ref' => $voter, 
@@ -43,13 +63,17 @@ class VoteController extends Controller
                 'updated_at' => now()];
             array_push($candidates, $candidate);
         }
+
         Vote::insert($candidates); 
         $request->session()->flush();
+
         return response('', 418)
-            ->withHeaders([
-                'HX-Trigger' => json_encode([ "alertPopper" => [
-                        "alertHeader" => "Berhasil!",
-                        "alertMessage" => "Suara anda telah kami dengar. Terima kasih!"
+            ->withHeaders(['HX-Trigger' =>
+                json_encode(["alertPopper" => [
+                    "status" => '1',
+                    "alertBGColor" => '#198754',
+                    "alertHeader" => "Berhasil!",
+                    "alertMessage" => "Suara anda telah kami dengar. Terima kasih!"
                 ]])
             ]);
     }
@@ -85,5 +109,6 @@ class VoteController extends Controller
     {
         //
     }
+
 
 }

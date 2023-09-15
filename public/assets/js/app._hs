@@ -5,7 +5,7 @@ def vote(e, next_label)
         set e's checked to false
         put "Hanya bisa memilih " + :max_vote + " kandidat!" into #alert-message's innerHTML
         put "Perhatian!" into #alert-heading's innerHTML
-        add .alert-warning to #alert-popup
+        set #alert-popup's *background-color to '#ffc107'
         show #alert
     otherwise
         toggle .shadow .selected on next_label
