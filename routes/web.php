@@ -48,6 +48,8 @@ Route::post('/login', function(Request $request) {
 });
 
 Route::get('/check', function(Request $request) {
+    // Cek client logged in?
+    // Cek antrian siap?
 
 });
 
