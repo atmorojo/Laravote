@@ -1,5 +1,6 @@
 <form 
     _="
+        set $max_vote to {{ $settings->max_vote }}
         on alertPopper
           set #alert-popup's *background-color to event.detail.alertBGColor
           put event.detail.alertHeader into #alert-heading

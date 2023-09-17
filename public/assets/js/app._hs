@@ -1,9 +1,8 @@
 def vote(e, next_label)
-    set :max_vote to 3
     get <.candidate-card__checkbox:checked/>
-    if its length > :max_vote then
+    if its length > $max_vote then
         set e's checked to false
-        put "Hanya bisa memilih " + :max_vote + " kandidat!" into #alert-message's innerHTML
+        put "Hanya bisa memilih " + $max_vote + " kandidat!" into #alert-message's innerHTML
         put "Perhatian!" into #alert-heading's innerHTML
         set #alert-popup's *background-color to '#ffc107'
         show #alert

@@ -17,11 +17,14 @@ use App\Models\User;
 |
  */
 
+// TODO: move the route from get:root to get:login
 Route::get('/', function(Request $request) {
     $logged_in = session('logged_in');
 
     if (!$logged_in) {
-        return view('page', ['page' => 'partials.login']);
+        return view('page',
+            ['page' => 'partials.login']
+        );
     }
 
     return redirect('/votes/create');
@@ -47,10 +50,15 @@ Route::post('/login', function(Request $request) {
     return redirect('/votes/create');
 });
 
-Route::get('/check', function(Request $request) {
+// TODO: move route from get:client to get:root
+Route::get('/client', function(Request $request) {
     // Cek client logged in?
+    //  - exist session('client-id')?
+    //  - yes -> redirect to ready page
+    //  - nope -> give client login page
+    
     // Cek antrian siap?
-
+    //  
 });
 
 Route::resource('votes', VoteController::class)->only([

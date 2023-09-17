@@ -22,6 +22,7 @@ class VoteController extends Controller
     public function create(Request $request)
     {
         if ($request->session()->missing('logged_in')) { return redirect('/'); }
+        $settings = \App\Models\Setting::all();
         $candidates = User::where('candidate', true)->get();
         $page = 'partials.candidate-list';
 
@@ -29,7 +30,12 @@ class VoteController extends Controller
             return view($page, compact('candidates'));
         }
 
-        return view('page', compact('page', 'candidates'));
+        return view('page',
+            compact(
+                'page',
+                'candidates',
+                'settings'
+            ));
     }
 
     /**

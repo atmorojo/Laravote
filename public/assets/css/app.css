@@ -67,3 +67,4 @@ html[data-bs-theme=dark] #auth-right {
     background:url(../../images/bg/4853433.png),linear-gradient(90deg,#2d499d,#3f5491)
 }
 
+label .card { cursor: pointer; }

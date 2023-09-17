@@ -14,9 +14,9 @@
                     put event.detail.alertHeader into #alert-heading's innerHTML
                     put event.detail.alertMessage into #alert-message's innerHTML
                     show #alert
-                    wait 5s
-                    set #user-id's @value to ''
+                    set #user-id's value to ''
                     call #user-id.focus()
+                    wait 5s
                     hide #alert
                     "
                     hx-post="/login"
