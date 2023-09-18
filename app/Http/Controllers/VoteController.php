@@ -22,7 +22,7 @@ class VoteController extends Controller
     public function create(Request $request)
     {
         if ($request->session()->missing('logged_in')) { return redirect('/'); }
-        $settings = \App\Models\Setting::all();
+        $settings = \App\Models\Setting::all()->first();
         $candidates = User::where('candidate', true)->get();
         $page = 'partials.candidate-list';
 
@@ -46,14 +46,15 @@ class VoteController extends Controller
         if ($request->session()->missing('logged_in')) { return redirect('/'); }
 
         $candidates_refs = $request->get('candidates');
+        $settings = \App\Models\Setting::all()->first();
 
-        if (count($candidates_refs) > 3) {
+        if (count($candidates_refs) > $settings->max_vote) {
             return response('', 418)
                 ->withHeaders(['HX-Trigger' =>
                 json_encode(["alertPopper" => [
                     "alertBGColor" => '#ffc107',
                     "alertHeader" => "Gagal!",
-                    "alertMessage" => "Maaf, hanya bisa memilih 3 kandidat!"
+                    "alertMessage" => "Maaf, hanya bisa memilih " . $settings->max_vote . " kandidat!"
                 ]])
                 ]);
         }

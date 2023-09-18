@@ -1,18 +1,21 @@
 <form 
     _="
+    init
         set $max_vote to {{ $settings->max_vote }}
-        on alertPopper
-          set #alert-popup's *background-color to event.detail.alertBGColor
-          put event.detail.alertHeader into #alert-heading
-          put event.detail.alertMessage into #alert-message
-          show #alert
+    end
 
-          if event.detail.status == 1
-              set #candidate-list's *opacity to '0.1'
-              set #candidate-list's *pointer-events to 'none'
-              wait 5s
-              go to url /
-          end
+    on alertPopper
+      set #alert-popup's *background-color to event.detail.alertBGColor
+      put event.detail.alertHeader into #alert-heading
+      put event.detail.alertMessage into #alert-message
+      show #alert
+
+      if event.detail.status == 1
+          set #candidate-list's *opacity to '0.1'
+          set #candidate-list's *pointer-events to 'none'
+          wait 5s
+          go to url /
+      end
     "
     id="candidate-list"
     hx-post="/votes"

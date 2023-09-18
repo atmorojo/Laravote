@@ -16,16 +16,15 @@
         </style>
     </head>
     <body>
+        <script type="text/hyperscript" src="{{ asset('js/app._hs') }}"></script>
+        <script src="{{ asset('js/_hyperscript.min.js') }}"></script>
         <main>
             {{ $slot }}
         </main>
 
         <div id='modal'></div>
         @include('utils.alert')
-        <script src="{{ asset('js/extensions/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
         <script src="{{ asset('js/app.js') }}"></script>
-        <script type="text/hyperscript" src="{{ asset('js/app._hs') }}"></script>
-        <script src="{{ asset('js/_hyperscript.min.js') }}"></script>
         <script src="{{ asset('js/htmx.min.js') }}"></script>
     </body>
 </html>

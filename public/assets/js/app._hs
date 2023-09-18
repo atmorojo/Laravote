@@ -6,6 +6,8 @@ def vote(e, next_label)
         put "Perhatian!" into #alert-heading's innerHTML
         set #alert-popup's *background-color to '#ffc107'
         show #alert
+        wait 3s
+        hide #alert
     otherwise
         toggle .shadow .selected on next_label
 end
