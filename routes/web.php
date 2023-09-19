@@ -65,9 +65,13 @@ Route::get('/client', function(Request $request) {
 // TODO: move session related stuff from post:login 
 Route::get('/check', function(Request $request) {
     // Is the client assigned to a queue?
-    // $queue = Queue::where('client', session('client-id'));
-    // $queue true?
-    // - yes -> redirect to voting page
+    // $assignedQueue = Queue::where('client', session('client-id'));
+    //
+    // $assignedQueue true?
+    // - yes ->
+    // -- dispatch SlotOccupied event
+    // -- redirect to voting page
+    //
     // - no -> send '418', "I'm a teapot!"
 });
 

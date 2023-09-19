@@ -74,6 +74,8 @@ class VoteController extends Controller
         Vote::insert($candidates); 
         $request->session()->flush();
 
+        //SlotFinished event dispatch
+
         return response('', 418)
             ->withHeaders(['HX-Trigger' =>
                 json_encode(["alertPopper" => [
