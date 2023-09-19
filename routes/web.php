@@ -53,12 +53,22 @@ Route::post('/login', function(Request $request) {
 // TODO: move route from get:client to get:root
 Route::get('/client', function(Request $request) {
     // Cek client logged in?
-    //  - exist session('client-id')?
-    //  - yes -> redirect to ready page
-    //  - nope -> give client login page
-    
-    // Cek antrian siap?
-    //  
+    //  - not exist session('client-id')?
+    //  -- yes -> give client login page
+    //
+    //  - session('voter-ref')?
+    //  -- yes -> redirect to voting page
+    //
+    //  - redirect to check page
+});
+
+// TODO: move session related stuff from post:login 
+Route::get('/check', function(Request $request) {
+    // Is the client assigned to a queue?
+    // $queue = Queue::where('client', session('client-id'));
+    // $queue true?
+    // - yes -> redirect to voting page
+    // - no -> send '418', "I'm a teapot!"
 });
 
 Route::resource('votes', VoteController::class)->only([
