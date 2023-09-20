@@ -62,6 +62,13 @@ Route::get('/client', function(Request $request) {
     //  - redirect to check page
 });
 
+Route::post('/client', function(Request $request) {
+    // - Valid registered client?
+    // -- no -> go back to client-login
+    // -- yes ->
+    // --- Dispatch RequestSlot
+});
+
 // TODO: move session related stuff from post:login 
 Route::get('/check', function(Request $request) {
     // Is the client assigned to a queue?
