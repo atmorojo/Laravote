@@ -20,10 +20,12 @@ use App\Models\User;
 // TODO: move the route from get:root to get:login
 Route::get('/', function(Request $request) {
     $logged_in = session('logged_in');
+    $page = 'partials.login';
+    $post_endpoint = '/login';
 
     if (!$logged_in) {
         return view('page',
-            ['page' => 'partials.login']
+            compact('page', 'post_endpoint')
         );
     }
 
@@ -46,6 +48,7 @@ Route::post('/login', function(Request $request) {
 
     session(['logged_in' => '1']);
     session(['voter_ref' => $voter]);
+    // TODO: dispatch VoterValidated
 
     return redirect('/votes/create');
 });
@@ -53,20 +56,40 @@ Route::post('/login', function(Request $request) {
 // TODO: move route from get:client to get:root
 Route::get('/client', function(Request $request) {
     // Cek client logged in?
-    //  - not exist session('client-id')?
-    //  -- yes -> give client login page
-    //
-    //  - session('voter-ref')?
-    //  -- yes -> redirect to voting page
-    //
-    //  - redirect to check page
+    $client_id = session('client_id');
+    $voter_ref = session('voter_ref');
+    $page = 'partials.login';
+    $post_endpoint = '/client';
+
+    if (!$client_id) {
+        return view('page', compact('page', 'post_endpoint'));
+    }
+
+    if (!$voter_ref) {
+        return redirect('/check');
+    }
+
+    return redirect('/votes/create');
 });
 
 Route::post('/client', function(Request $request) {
-    // - Valid registered client?
-    // -- no -> go back to client-login
-    // -- yes ->
-    // --- Dispatch RequestSlot
+    $client_pass = $request->get('ref');
+    $client = Client::firstWhere('password', $client_pass);
+
+    if (!$client) {
+        return response('', 401)
+            ->withHeaders(['HX-Trigger' => json_encode([
+                "alertPopper" => [
+                    "alertHeader" => "Perhatian!",
+                    "alertMessage" => "Maaf, mesin ini tidak terdaftar dalam sistem kami!"
+                ]])
+            ]);
+    }
+
+    session(['client_id' => $client->name]);
+    // TODO: Dispatch SlotAvailable
+
+    return redirect('/check');
 });
 
 // TODO: move session related stuff from post:login 

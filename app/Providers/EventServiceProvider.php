@@ -21,13 +21,10 @@ class EventServiceProvider extends ServiceProvider
         VoterValidated::class => [
             PopulateVoterQueue::class,
         ],
-        RequestSlot::class => [
-            CheckEmptySlot::class,
-        ],
         SlotOccupied::class => [
             FillSlot::class,
         ],
-        SlotFinished::class => [
+        SlotAvailable::class => [
             EmptySlot::class,
         ]
     ];

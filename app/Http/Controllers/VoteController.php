@@ -27,7 +27,7 @@ class VoteController extends Controller
         $page = 'partials.candidate-list';
 
         if ($request->header('hx-request')) {
-            return view($page, compact('candidates'));
+            return view($page, compact('candidates', 'settings'));
         }
 
         return view('page',
@@ -74,7 +74,7 @@ class VoteController extends Controller
         Vote::insert($candidates); 
         $request->session()->flush();
 
-        //SlotFinished event dispatch
+        // TODO: dispatch SlotAvailable
 
         return response('', 418)
             ->withHeaders(['HX-Trigger' =>

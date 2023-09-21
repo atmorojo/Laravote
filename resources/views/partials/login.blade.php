@@ -19,7 +19,7 @@
                     wait 5s
                     hide #alert
                     "
-                    hx-post="/login"
+                    hx-post="{{ $post_endpoint }}"
                     hx-target="main"
                     autocomplete="off"
                     class="login-card">
