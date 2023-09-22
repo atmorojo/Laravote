@@ -74,7 +74,7 @@ Route::get('/client', function(Request $request) {
 
 Route::post('/client', function(Request $request) {
     $client_pass = $request->get('ref');
-    $client = Client::firstWhere('password', $client_pass);
+    $client = \App\Models\Client::firstWhere('password', $client_pass);
 
     if (!$client) {
         return response('', 401)
@@ -94,6 +94,7 @@ Route::post('/client', function(Request $request) {
 
 // TODO: move session related stuff from post:login 
 Route::get('/check', function(Request $request) {
+    return "Hello /check here";
     // Is the client assigned to a queue?
     // $assignedQueue = Queue::where('client', session('client-id'));
     //
