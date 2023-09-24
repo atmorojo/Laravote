@@ -19,7 +19,7 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
         VoterValidated::class => [
-            PopulateVoterQueue::class,
+            PopulateQueue::class,
         ],
         SlotOccupied::class => [
             FillSlot::class,

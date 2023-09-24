@@ -96,14 +96,15 @@ Route::post('/client', function(Request $request) {
 Route::get('/check', function(Request $request) {
     return "Hello /check here";
     // Is the client assigned to a queue?
-    // $assignedQueue = Queue::where('client', session('client-id'));
-    //
-    // $assignedQueue true?
-    // - yes ->
+    $assignedQueue = \App\Models\Queue::where('slot', session('client-id'));
+
+    // $assignedQueue false?
+    if (!$assignedQueue) {
+        return response('', 418);
+    }
+
     // -- dispatch SlotOccupied event
-    // -- redirect to voting page
-    //
-    // - no -> send '418', "I'm a teapot!"
+    return redirect('/votes/create');
 });
 
 Route::resource('votes', VoteController::class)->only([
