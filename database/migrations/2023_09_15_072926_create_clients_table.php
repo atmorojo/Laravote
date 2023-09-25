@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('password');
+            $table->boolean('is_empty')->default(true);
             $table->timestamps();
         });
     }

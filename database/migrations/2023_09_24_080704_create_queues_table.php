@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('queues', function (Blueprint $table) {
             $table->id();
-            $table->string('slot');
-            $table->string('voter');
+            $table->string('client_id');
+            $table->string('voter_ref');
+            $table->boolean('is_done')->default(false);
             $table->timestamps();
         });
     }

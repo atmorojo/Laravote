@@ -48,7 +48,9 @@ Route::post('/login', function(Request $request) {
 
     session(['logged_in' => '1']);
     session(['voter_ref' => $voter]);
-    // TODO: dispatch VoterValidated
+    VoterValidated::dispatch($voter);
+
+    // TODO: any empty clients? If any, assign me to it!
 
     return redirect('/votes/create');
 });
@@ -87,23 +89,25 @@ Route::post('/client', function(Request $request) {
     }
 
     session(['client_id' => $client->name]);
-    // TODO: Dispatch SlotAvailable
+    SlotAvailable::dispatch($client->name);
 
     return redirect('/check');
 });
 
 // TODO: move session related stuff from post:login 
 Route::get('/check', function(Request $request) {
-    return "Hello /check here";
     // Is the client assigned to a queue?
-    $assignedQueue = \App\Models\Queue::where('slot', session('client-id'));
+    $assignedQueue = \App\Models\Queue::where(
+        'client_id', session('client-id'),
+        'is_done', false
+    );
 
     // $assignedQueue false?
     if (!$assignedQueue) {
         return response('', 418);
     }
 
-    // -- dispatch SlotOccupied event
+    SlotOccupied::dispatch(session('client-id'));
     return redirect('/votes/create');
 });
 
