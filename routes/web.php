@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\VoteController;
 use App\Http\Middleware\Authenticate;
 use App\Models\User;
+use App\Models\Client;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +36,7 @@ Route::get('/', function(Request $request) {
 Route::post('/login', function(Request $request) {
     $voter = $request->get('ref');
     $user = User::firstWhere('ref', $voter);
+    $client = Client::firstWhere('is_empty', true);
 
     if (!$user) {
         return response('', 401)
@@ -46,13 +48,20 @@ Route::post('/login', function(Request $request) {
             ]);
     }
 
+    if (!$client) {
+        return response('', 401)
+            ->withHeaders(['HX-Trigger' => json_encode([
+                "alertPopper" => [
+                    "alertHeader" => "Perhatian!",
+                    "alertMessage" => "Maaf, belum ada bilik yang tersedia!"
+                ]])
+            ]);
+    }
+
     session(['logged_in' => '1']);
     session(['voter_ref' => $voter]);
-    VoterValidated::dispatch($voter);
 
-    // TODO: any empty clients? If any, assign me to it!
-
-    return redirect('/votes/create');
+    \App\Providers\VoterValidated::dispatch($voter, $client->name);
 });
 
 // TODO: move route from get:client to get:root
@@ -76,7 +85,7 @@ Route::get('/client', function(Request $request) {
 
 Route::post('/client', function(Request $request) {
     $client_pass = $request->get('ref');
-    $client = \App\Models\Client::firstWhere('password', $client_pass);
+    $client = Client::firstWhere('password', $client_pass);
 
     if (!$client) {
         return response('', 401)
@@ -89,7 +98,7 @@ Route::post('/client', function(Request $request) {
     }
 
     session(['client_id' => $client->name]);
-    SlotAvailable::dispatch($client->name);
+    \App\Providers\SlotAvailable::dispatch($client->name);
 
     return redirect('/check');
 });
@@ -97,17 +106,18 @@ Route::post('/client', function(Request $request) {
 // TODO: move session related stuff from post:login 
 Route::get('/check', function(Request $request) {
     // Is the client assigned to a queue?
-    $assignedQueue = \App\Models\Queue::where(
-        'client_id', session('client-id'),
-        'is_done', false
-    );
+    $assignedQueue =
+        \App\Models\Queue::where('client_id', session('client-id'))
+            ->where('is_done', false)
+            ->first();
+    dd($assignedQueue);
 
     // $assignedQueue false?
     if (!$assignedQueue) {
         return response('', 418);
     }
 
-    SlotOccupied::dispatch(session('client-id'));
+    \App\Providers\SlotOccupied::dispatch(session('client-id'));
     return redirect('/votes/create');
 });
 

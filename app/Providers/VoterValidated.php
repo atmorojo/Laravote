@@ -14,13 +14,15 @@ class VoterValidated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
     public $voter;
+    public $client;
 
     /**
      * Create a new event instance.
      */
-    public function __construct($voter)
+    public function __construct($voter, $client)
     {
         $this->voter = $voter;
+        $this->client = $client;
     }
 
     /**

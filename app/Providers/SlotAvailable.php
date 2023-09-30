@@ -13,13 +13,15 @@ use Illuminate\Queue\SerializesModels;
 class SlotAvailable
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
+    public $client;
 
     /**
      * Create a new event instance.
      */
-    public function __construct()
+    public function __construct($client, $voter = null)
     {
-        //
+        $this->client = $client;
+        $this->voter = $voter;
     }
 
     /**

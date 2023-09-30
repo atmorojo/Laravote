@@ -13,13 +13,14 @@ use Illuminate\Queue\SerializesModels;
 class SlotOccupied
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
+    public $client;
 
     /**
      * Create a new event instance.
      */
-    public function __construct()
+    public function __construct($client)
     {
-        //
+        $this->client = $client;
     }
 
     /**

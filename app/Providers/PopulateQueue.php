@@ -25,7 +25,7 @@ class PopulateQueue
         $queue = new Queue;
 
         $queue->voter_ref = $event->voter;
-        $queue->client_id = null;
+        $queue->client_id = $event->client;
 
         $queue->save();
     }
