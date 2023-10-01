@@ -22,7 +22,6 @@ class FillSlot
     public function handle(SlotOccupied $event): void
     {
         $client = \App\Models\Client::firstWhere('name', $event->client);
-        dd($client, $event);
         $client->is_empty = false;
         $client->save();
     }

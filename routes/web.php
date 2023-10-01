@@ -58,10 +58,16 @@ Route::post('/login', function(Request $request) {
             ]);
     }
 
-    session(['logged_in' => '1']);
-    session(['voter_ref' => $voter]);
 
     \App\Providers\VoterValidated::dispatch($voter, $client->name);
+    \App\Providers\SlotOccupied::dispatch($client->name);
+    return response('', 401)
+        ->withHeaders(['HX-Trigger' => json_encode([
+            "alertPopper" => [
+                "alertHeader" => "Sukses!",
+                "alertMessage" => $user->name . ", silakan ke bilik " . $client->name
+            ]])
+        ]);
 });
 
 // TODO: move route from get:client to get:root
@@ -100,24 +106,26 @@ Route::post('/client', function(Request $request) {
     session(['client_id' => $client->name]);
     \App\Providers\SlotAvailable::dispatch($client->name);
 
-    return redirect('/check');
+    return response('', 418)->withHeaders(['HX-Location' => '/check']);
 });
 
 // TODO: move session related stuff from post:login 
 Route::get('/check', function(Request $request) {
     // Is the client assigned to a queue?
-    $assignedQueue =
-        \App\Models\Queue::where('client_id', session('client-id'))
-            ->where('is_done', false)
-            ->first();
-    dd($assignedQueue);
+    $assignedQueue = \App\Models\Queue::where
+        ('client_id', session('client_id'))
+        ->where('is_done', false)
+        ->first();
 
     // $assignedQueue false?
+    // return nothing if session('checked') == false
+    // else return page that reload this page every 5s
     if (!$assignedQueue) {
-        return response('', 418);
+        return response('');
     }
+    session(['voter_ref' => $assignedQueue->voter_ref]);
 
-    \App\Providers\SlotOccupied::dispatch(session('client-id'));
+    \App\Providers\SlotOccupied::dispatch($assignedQueue->client_id);
     return redirect('/votes/create');
 });
 

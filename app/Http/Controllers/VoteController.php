@@ -21,7 +21,7 @@ class VoteController extends Controller
      */
     public function create(Request $request)
     {
-        if ($request->session()->missing('logged_in')) { return redirect('/'); }
+        if ($request->session()->missing('voter_ref')) { return redirect('/client'); }
         $settings = \App\Models\Setting::all()->first();
         $candidates = User::where('candidate', true)->get();
         $page = 'partials.candidate-list';
@@ -43,7 +43,7 @@ class VoteController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->session()->missing('logged_in')) { return redirect('/'); }
+        if ($request->session()->missing('voter_ref')) { return redirect('/'); }
 
         $candidates_refs = $request->get('candidates');
         $settings = \App\Models\Setting::all()->first();
@@ -72,9 +72,9 @@ class VoteController extends Controller
         }
 
         Vote::insert($candidates); 
-        $request->session()->flush();
+        $request->session()->forget('voter_ref');
 
-        SlotAvailable::dispatch(session('client-id'), $voter);
+        \App\Providers\SlotAvailable::dispatch(session('client-id'), $voter);
         return response('', 418)
             ->withHeaders(['HX-Trigger' =>
                 json_encode(["alertPopper" => [
