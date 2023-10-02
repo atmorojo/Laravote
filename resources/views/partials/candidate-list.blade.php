@@ -14,7 +14,7 @@
           set #candidate-list's *opacity to '0.1'
           set #candidate-list's *pointer-events to 'none'
           wait 5s
-          go to url /
+          go to url /client
       end
     "
     id="candidate-list"

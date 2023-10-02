@@ -61,6 +61,8 @@ class VoteController extends Controller
 
         $candidates = [];
         $voter = session('voter_ref');
+        $client = session('client_id');
+        $queue_id = session('queue_id');
 
         foreach ($candidates_refs as $candidate_ref) {
             $candidate = [
@@ -72,17 +74,17 @@ class VoteController extends Controller
         }
 
         Vote::insert($candidates); 
-        $request->session()->forget('voter_ref');
 
-        \App\Providers\SlotAvailable::dispatch(session('client-id'), $voter);
+        \App\Providers\SlotAvailable::dispatch($client, $queue_id);
+        $request->session()->forget('voter_ref');
         return response('', 418)
             ->withHeaders(['HX-Trigger' =>
-                json_encode(["alertPopper" => [
-                    "status" => '1',
-                    "alertBGColor" => '#198754',
-                    "alertHeader" => "Berhasil!",
-                    "alertMessage" => "Suara anda telah kami dengar. Terima kasih!"
-                ]])
+            json_encode(["alertPopper" => [
+                "status" => '1',
+                "alertBGColor" => '#198754',
+                "alertHeader" => "Berhasil!",
+                "alertMessage" => "Suara anda telah kami dengar. Terima kasih!"
+            ]])
             ]);
     }
 

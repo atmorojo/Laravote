@@ -19,22 +19,13 @@ use App\Models\Client;
  */
 
 // TODO: move the route from get:root to get:login
-Route::get('/', function(Request $request) {
-    $logged_in = session('logged_in');
-    $page = 'partials.login';
-    $post_endpoint = '/login';
-
-    if (!$logged_in) {
-        return view('page',
-            compact('page', 'post_endpoint')
-        );
-    }
-
-    return redirect('/votes/create');
+Route::get('/voter', function(Request $request) {
+    return view('page', ['page' => 'partials.login']);
 })->name('login');
 
 Route::post('/login', function(Request $request) {
     $voter = $request->get('ref');
+
     $user = User::firstWhere('ref', $voter);
     $client = Client::firstWhere('is_empty', true);
 
@@ -58,9 +49,9 @@ Route::post('/login', function(Request $request) {
             ]);
     }
 
-
     \App\Providers\VoterValidated::dispatch($voter, $client->name);
     \App\Providers\SlotOccupied::dispatch($client->name);
+
     return response('', 401)
         ->withHeaders(['HX-Trigger' => json_encode([
             "alertPopper" => [
@@ -75,11 +66,10 @@ Route::get('/client', function(Request $request) {
     // Cek client logged in?
     $client_id = session('client_id');
     $voter_ref = session('voter_ref');
-    $page = 'partials.login';
-    $post_endpoint = '/client';
+    $page = 'partials.client';
 
     if (!$client_id) {
-        return view('page', compact('page', 'post_endpoint'));
+        return view('page', compact('page'));
     }
 
     if (!$voter_ref) {
@@ -118,14 +108,18 @@ Route::get('/check', function(Request $request) {
         ->first();
 
     // $assignedQueue false?
-    // return nothing if session('checked') == false
+    // return nothing if request came from htmx
     // else return page that reload this page every 5s
     if (!$assignedQueue) {
-        return response('');
+        return response('Reload me');
     }
-    session(['voter_ref' => $assignedQueue->voter_ref]);
 
     \App\Providers\SlotOccupied::dispatch($assignedQueue->client_id);
+    session([
+        'voter_ref' => $assignedQueue->voter_ref,
+        'queue_id' => $assignedQueue->id
+    ]);
+
     return redirect('/votes/create');
 });
 

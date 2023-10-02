@@ -23,9 +23,8 @@ class EmptySlot
      */
     public function handle(SlotAvailable $event): void
     {
-        if ($event->voter) {
-            dd($event);
-            $queue = Queue::firstWhere('voter_ref', $event->voter);
+        if ($event->queue) {
+            $queue = Queue::firstWhere('id', $event->queue);
             $queue->is_done = true;
             $queue->save();
         }

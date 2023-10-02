@@ -14,14 +14,15 @@ class SlotAvailable
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
     public $client;
+    public $queue;
 
     /**
      * Create a new event instance.
      */
-    public function __construct($client, $voter = null)
+    public function __construct($client, $queue = null)
     {
         $this->client = $client;
-        $this->voter = $voter;
+        $this->queue = $queue;
     }
 
     /**

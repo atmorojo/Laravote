@@ -4,7 +4,7 @@
             <div id="auth-left">
                 <h1 class="auth-title">Log In.</h1>
                 <p class="auth-subtitle mb-5">
-                    Masukkan nomor baku pemilih yang telah anda dapatkan dari panitia
+                   Password bilik: 
                 </p>
 
                 <form
@@ -14,12 +14,13 @@
                     put event.detail.alertHeader into #alert-heading's innerHTML
                     put event.detail.alertMessage into #alert-message's innerHTML
                     show #alert
-                    wait 5s
+
                     set #user-id's @value to ''
                     call #user-id.focus()
+                    wait 5s
                     hide #alert
                     "
-                    hx-post="/login"
+                    hx-post="/client"
                     hx-target="main"
                     autocomplete="off"
                     class="login-card">
@@ -31,7 +32,7 @@
                             class="form-control form-control-xl"
                             name="ref"
                             maxlength="8"
-                            placeholder="Nomor Baku Pemilih"
+                            placeholder="Password bilik ini"
                             />
                         <div class="form-control-icon">
                             <i class="bi bi-person"></i>
