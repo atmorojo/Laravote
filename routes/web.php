@@ -96,7 +96,8 @@ Route::post('/client', function(Request $request) {
     session(['client_id' => $client->name]);
     \App\Providers\SlotAvailable::dispatch($client->name);
 
-    return response('', 418)->withHeaders(['HX-Location' => '/check']);
+    return redirect('/check');
+    //return response('', 418)->withHeaders(['HX-Location' => '/check']);
 });
 
 // TODO: move session related stuff from post:login 
@@ -108,10 +109,13 @@ Route::get('/check', function(Request $request) {
         ->first();
 
     // $assignedQueue false?
-    // return nothing if request came from htmx
-    // else return page that reload this page every 5s
     if (!$assignedQueue) {
-        return response('Reload me');
+
+        if ($request->header('hx-request')) {
+            return view('partials.check');
+        }
+
+        return view('page', ['page' => 'partials.check']);
     }
 
     \App\Providers\SlotOccupied::dispatch($assignedQueue->client_id);
