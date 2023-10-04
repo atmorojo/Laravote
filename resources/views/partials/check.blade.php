@@ -2,9 +2,9 @@
     <div class="row h-100">
         <div class="col-lg-5 col-12">
             <div id="auth-left">
-                <h1 class="auth-title">Log In.</h1>
+                <h1 class="auth-title mt-5">{{ $client_id }}</h1>
                 <p class="auth-subtitle mb-5">
-                    Masukkan nomor baku pemilih yang telah anda dapatkan dari panitia
+                    Harap tunggu sebentar...
                 </p>
 
                 <div

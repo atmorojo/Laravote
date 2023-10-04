@@ -102,9 +102,11 @@ Route::post('/client', function(Request $request) {
 
 // TODO: move session related stuff from post:login 
 Route::get('/check', function(Request $request) {
+    $client = session('client_id');
+    if (!$client) { return redirect('/client'); }
     // Is the client assigned to a queue?
     $assignedQueue = \App\Models\Queue::where
-        ('client_id', session('client_id'))
+        ('client_id', $client)
         ->where('is_done', false)
         ->first();
 
@@ -112,13 +114,16 @@ Route::get('/check', function(Request $request) {
     if (!$assignedQueue) {
 
         if ($request->header('hx-request')) {
-            return view('partials.check');
+            return view('partials.check', ['client_id' => $client]);
         }
 
-        return view('page', ['page' => 'partials.check']);
+        return view('page', [
+            'page' => 'partials.check',
+            'client_id' => $client
+        ]);
     }
 
-    \App\Providers\SlotOccupied::dispatch($assignedQueue->client_id);
+    \App\Providers\SlotOccupied::dispatch($client);
     session([
         'voter_ref' => $assignedQueue->voter_ref,
         'queue_id' => $assignedQueue->id
