@@ -9,7 +9,7 @@
 
                 <form
                     _="
-                    on alertPopper
+                    on alertPopper send userConfirmed(message: event.detail) to #auth-right
                     set #alert-popup's *background-color to '#f3616d'
                     put event.detail.alertHeader into #alert-heading's innerHTML
                     put event.detail.alertMessage into #alert-message's innerHTML
@@ -42,7 +42,11 @@
             </div>
         </div>
         <div class="col-lg-7 d-none d-lg-block">
-            <div id="auth-right"></div>
+            <div 
+                _="on userConfirmed(message) put message.alertMessage into #voter"
+                id="auth-right">
+                <h1 id="voter" class="auth-title mt-0 pt-5"></h1>
+            </div>
         </div>
     </div>
 </div>
