@@ -6,6 +6,7 @@ use App\Http\Controllers\VoteController;
 use App\Http\Middleware\Authenticate;
 use App\Models\User;
 use App\Models\Client;
+use App\Models\Queue;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,10 +25,21 @@ Route::get('/voter', function(Request $request) {
 })->name('login');
 
 Route::post('/login', function(Request $request) {
-    $voter = $request->get('ref');
+    $voter = substr($request->get('ref'), 0, 8);
 
+    $queue = Queue::firstWhere('voter_ref', $voter);
     $user = User::firstWhere('ref', $voter);
     $client = Client::firstWhere('is_empty', true);
+
+    if ($queue) {
+        return response('', 401)
+            ->withHeaders(['HX-Trigger' => json_encode([
+                "voterFound" => [
+                    "voter" => $user->name,
+                    "client" => $queue->client_id
+                ]])
+            ]);
+    }
 
     if (!$user) {
         return response('', 401)
@@ -54,9 +66,9 @@ Route::post('/login', function(Request $request) {
 
     return response('', 401)
         ->withHeaders(['HX-Trigger' => json_encode([
-            "alertPopper" => [
-                "alertHeader" => "Sukses!",
-                "alertMessage" => $user->name . ", silakan ke bilik " . $client->name
+            "voterFound" => [
+                "voter" => $user->name,
+                "client" => $client->name
             ]])
         ]);
 });
@@ -105,14 +117,13 @@ Route::get('/check', function(Request $request) {
     $client = session('client_id');
     if (!$client) { return redirect('/client'); }
     // Is the client assigned to a queue?
-    $assignedQueue = \App\Models\Queue::where
+    $assignedQueue = Queue::where
         ('client_id', $client)
         ->where('is_done', false)
         ->first();
 
     // $assignedQueue false?
     if (!$assignedQueue) {
-
         if ($request->header('hx-request')) {
             return view('partials.check', ['client_id' => $client]);
         }
@@ -136,3 +147,27 @@ Route::resource('votes', VoteController::class)->only([
     'index', 'create', 'store'
 ]);
 
+Route::get('livescore', function(Request $request) {
+    $votes = DB::select('select ref_voted, users.name, count(*) as hasil from votes, users where users.ref = votes.ref_voted GROUP BY ref_voted');
+    return view('livescore', compact('votes'));
+});
+
+Route::get('SdfskdfLSldfSDFg234fc;o', function(Request $request) {
+    $filePath = public_path('peserta.csv');
+    $file = fopen($filePath, 'r');
+
+    while($line = fgetcsv($file, 1024)) {
+        $nama = $line[0];
+        $asal = $line[2];
+        $kode = $line[3];
+
+        $user = new User;
+
+        $user->name = $nama;
+        $user->ref = $kode;
+        $user->bio = $asal;
+        $user->candidate = 0;
+
+        $user->save();
+    }
+});

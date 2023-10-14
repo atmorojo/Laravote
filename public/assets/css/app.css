@@ -68,3 +68,20 @@ html[data-bs-theme=dark] #auth-right {
 }
 
 label .card { cursor: pointer; }
+
+.welcome {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    z-index: 99999;
+    background-color: whitesmoke;
+}
+
+.welcome__content {
+    padding: 5em 3em;
+    text-align: center;
+}
+
+.welcome__content h2 { font-size: 5em; }
+.welcome__content h1 { font-size: 8em; }

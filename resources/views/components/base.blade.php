@@ -22,7 +22,6 @@
             {{ $slot }}
         </main>
 
-        <div id='modal'></div>
         @include('utils.alert')
         <script src="{{ asset('js/app.js') }}"></script>
         <script src="{{ asset('js/htmx.min.js') }}"></script>

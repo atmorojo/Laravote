@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('ref')->unique();
+            $table->string('urut_calon')->nullable();
             $table->boolean('candidate');
             $table->text('bio');
             $table->timestamps();

@@ -27,13 +27,15 @@ class VoteController extends Controller
 
         $settings = \App\Models\Setting::all()->first();
         $candidates = User::where('candidate', true)->get();
+        $voter = User::select('id', 'ref', 'name')->where('ref', session('voter_ref'))->get();
         $page = 'partials.candidate-list';
+        $client = session('client_id');
 
         if ($request->header('hx-request')) {
-            return view($page, compact('candidates', 'settings'));
+            return view($page, compact('candidates', 'settings', 'voter', 'client'));
         }
 
-        return view('page', compact('page', 'candidates', 'settings'));
+        return view('page', compact('page', 'candidates', 'settings', 'voter', 'client'));
     }
 
     /**
@@ -46,7 +48,7 @@ class VoteController extends Controller
         $candidates_refs = $request->get('candidates');
         $settings = \App\Models\Setting::all()->first();
 
-        if (count($candidates_refs) > $settings->max_vote) {
+        if (count($candidates_refs) != $settings->max_vote) {
             return response('', 418)
                 ->withHeaders(['HX-Trigger' =>
                 json_encode(["alertPopper" => [
