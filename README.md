@@ -55,9 +55,9 @@ Laravote uses **one screening machine** (with barcode scanner) and **multiple vo
 - **Vote cast** → `POST /votes` inserts into `votes` table, marks queue as `is_done = true`, booth becomes empty again
 - **Events**: `SlotOccupied` / `SlotAvailable` toggle the `clients.is_empty` flag on each booth
 
-## Under Development
+## Future Improvements
 * Candidate management
-* Result reporting
+* Enhanced reporting with analytics
 * Dashboard
 
 ## Use Cases
@@ -107,7 +107,8 @@ php artisan serve
 
 ## Project Status
 
-There are a lot to improve, but it's used in real organizational voting workflows.
+Used in real organizational voting workflows.
+Future improvements include reporting, administration, and test coverage.
 
 ## Acknowledgements
 [Mazer](https://github.com/zuramai/mazer)
