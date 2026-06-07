@@ -16,3 +16,20 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+
+# Environment & database
+.env
+database/database.sqlite
+
+# Build artifacts / template boilerplate
+mazer-template/
+dist/
+
+# Deployment
+fly.toml
+Dockerfile
+.dockerignore
+.fly/
+
+# Editor
+tags
