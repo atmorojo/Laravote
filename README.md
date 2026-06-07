@@ -74,13 +74,21 @@ This system has been used for organizational voting activities, including youth 
 
 ## Screenshots
 
+### Voter Screening
+
+![Voter screening form](screenshots/voter_screening.png)
+
+### Voter Assigned to Booth
+
+![Voter greeting showing assigned booth](screenshots/Voter%20greeting.png)
+
 ### Voting Page
 
-[insert screenshot]
+![Candidate selection screen](screenshots/voting_screen.png)
 
 ### Live-count Page
 
-[insert screenshot]
+![Real-time vote results](screenshots/livescore.png)
 
 ## Installation
 
